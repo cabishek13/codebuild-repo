@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      golang: 1.22
+  build:
+    commands:
+      - echo "Running tests..."
+      - go test -v ./...
+      - echo "Building binary..."
+      - GOOS=linux GOARCH=amd64 go build -o bootstrap main.go
+      - zip deployment.zip bootstrap
+  post_build:
+    commands:
+      - echo "Updating Lambda function code..."
+      - aws lambda update-function-code --function-name codebuild_lambda_function --zip-file fileb://deployment.zip
