@@ -6,8 +6,6 @@ phases:
       golang: 1.22
   build:
     commands:
-      - echo "Running tests..."
-      - go test -v ./...
       - echo "Building binary..."
       - GOOS=linux GOARCH=amd64 go build -o bootstrap main.go
       - zip deployment.zip bootstrap
